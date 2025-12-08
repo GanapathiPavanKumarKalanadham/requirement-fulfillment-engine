@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 import Navbar from "@/components/layout/Navbar";
 import {
   ArrowRight,
@@ -11,11 +12,11 @@ import {
   Youtube,
   FileText,
   Map,
-  Sparkles,
-  Zap,
   CheckCircle2,
   Target,
   Rocket,
+  Zap,
+  Sparkles,
 } from "lucide-react";
 
 const features = [
@@ -29,6 +30,8 @@ const features = [
       "Summary generation",
       "Flashcard creation",
     ],
+    color: "text-terracotta",
+    bgColor: "bg-terracotta/10",
   },
   {
     icon: FileText,
@@ -40,6 +43,8 @@ const features = [
       "Content extraction",
       "Smart formatting",
     ],
+    color: "text-azure",
+    bgColor: "bg-azure/10",
   },
   {
     icon: Map,
@@ -51,6 +56,8 @@ const features = [
       "Progress tracking",
       "Adaptive recommendations",
     ],
+    color: "text-sage",
+    bgColor: "bg-sage/10",
   },
   {
     icon: Code2,
@@ -62,6 +69,8 @@ const features = [
       "Test case validation",
       "AI-powered hints",
     ],
+    color: "text-lavender",
+    bgColor: "bg-lavender/10",
   },
   {
     icon: Briefcase,
@@ -73,6 +82,8 @@ const features = [
       "Application tracking",
       "Interview prep",
     ],
+    color: "text-gold",
+    bgColor: "bg-gold/10",
   },
   {
     icon: Brain,
@@ -84,6 +95,8 @@ const features = [
       "Interview simulation",
       "Career planning",
     ],
+    color: "text-azure",
+    bgColor: "bg-azure/10",
   },
 ];
 
@@ -91,13 +104,17 @@ const containerVariants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
-    transition: { staggerChildren: 0.1 },
+    transition: { staggerChildren: 0.08 },
   },
 };
 
 const itemVariants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: { opacity: 1, y: 0 },
+  hidden: { opacity: 0, y: 24 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.6, ease: "easeOut" },
+  },
 };
 
 const Features = () => {
@@ -107,21 +124,26 @@ const Features = () => {
 
       {/* Hero Section */}
       <section className="relative pt-32 pb-20 px-4">
-        <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/20 rounded-full blur-[128px] animate-pulse-glow" />
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-sage/5 rounded-full blur-[120px]" />
+          <div className="absolute inset-0 bg-grid-subtle bg-[size:60px_60px] opacity-40" />
         </div>
 
         <div className="container mx-auto relative z-10 text-center">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
+            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
           >
-            <Sparkles className="w-12 h-12 text-primary mx-auto mb-4" />
-            <h1 className="text-4xl md:text-6xl font-bold mb-6">
-              Powerful Features for Your <span className="text-gradient">Success</span>
+            <Badge variant="subtle" className="mb-6">
+              <Sparkles className="w-3.5 h-3.5 mr-1.5 text-sage" />
+              Platform Features
+            </Badge>
+            <h1 className="font-serif text-4xl md:text-6xl lg:text-7xl font-medium mb-6 tracking-tight">
+              Powerful Features for Your{" "}
+              <span className="text-gradient">Success</span>
             </h1>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+            <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
               Everything you need to accelerate your learning journey and land your dream tech job.
             </p>
           </motion.div>
@@ -129,33 +151,33 @@ const Features = () => {
       </section>
 
       {/* Features Grid */}
-      <section className="py-16 px-4">
+      <section className="py-16 md:py-24 px-4">
         <div className="container mx-auto">
           <motion.div
             variants={containerVariants}
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8"
           >
             {features.map((feature) => (
               <motion.div key={feature.title} variants={itemVariants}>
-                <Card variant="feature" className="h-full">
-                  <CardHeader>
-                    <div className="w-14 h-14 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center mb-4">
-                      <feature.icon className="w-7 h-7 text-primary" />
-                    </div>
-                    <CardTitle className="text-xl mb-2">{feature.title}</CardTitle>
-                    <CardDescription className="text-base mb-4">{feature.description}</CardDescription>
-                    <ul className="space-y-2">
-                      {feature.details.map((detail) => (
-                        <li key={detail} className="flex items-center gap-2 text-sm text-muted-foreground">
-                          <CheckCircle2 className="w-4 h-4 text-success flex-shrink-0" />
-                          {detail}
-                        </li>
-                      ))}
-                    </ul>
-                  </CardHeader>
+                <Card variant="feature" className="h-full p-8">
+                  <div className={`w-14 h-14 rounded-2xl ${feature.bgColor} flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300`}>
+                    <feature.icon className={`w-7 h-7 ${feature.color}`} />
+                  </div>
+                  <CardTitle className="text-xl mb-3">{feature.title}</CardTitle>
+                  <CardDescription className="text-base mb-6 leading-relaxed">
+                    {feature.description}
+                  </CardDescription>
+                  <ul className="space-y-3">
+                    {feature.details.map((detail) => (
+                      <li key={detail} className="flex items-center gap-3 text-sm text-muted-foreground">
+                        <CheckCircle2 className="w-4 h-4 text-success flex-shrink-0" />
+                        {detail}
+                      </li>
+                    ))}
+                  </ul>
                 </Card>
               </motion.div>
             ))}
@@ -164,15 +186,20 @@ const Features = () => {
       </section>
 
       {/* How It Works */}
-      <section className="py-24 px-4 border-t border-border/50">
+      <section className="py-24 md:py-32 px-4 bg-muted/30">
         <div className="container mx-auto">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
             className="text-center mb-16"
           >
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">
+            <Badge variant="subtle" className="mb-4">
+              <Target className="w-3.5 h-3.5 mr-1.5 text-azure" />
+              Getting Started
+            </Badge>
+            <h2 className="font-serif text-3xl md:text-5xl font-medium mb-6 tracking-tight">
               How It <span className="text-gradient">Works</span>
             </h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
@@ -180,25 +207,30 @@ const Features = () => {
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12 max-w-4xl mx-auto">
             {[
-              { icon: Target, title: "Set Your Goal", description: "Tell us what career path you want to pursue" },
-              { icon: Map, title: "Get Your Roadmap", description: "AI generates a personalized learning path" },
-              { icon: Rocket, title: "Start Learning", description: "Practice, learn, and land your dream job" },
-            ].map((step, index) => (
+              { icon: Target, title: "Set Your Goal", description: "Tell us what career path you want to pursue", step: "01" },
+              { icon: Map, title: "Get Your Roadmap", description: "AI generates a personalized learning path", step: "02" },
+              { icon: Rocket, title: "Start Learning", description: "Practice, learn, and land your dream job", step: "03" },
+            ].map((item, index) => (
               <motion.div
-                key={step.title}
-                initial={{ opacity: 0, y: 20 }}
+                key={item.title}
+                initial={{ opacity: 0, y: 24 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.1 }}
+                transition={{ delay: index * 0.1, duration: 0.6 }}
                 viewport={{ once: true }}
                 className="text-center"
               >
-                <div className="w-16 h-16 rounded-2xl bg-gradient-primary flex items-center justify-center mx-auto mb-4 glow">
-                  <step.icon className="w-8 h-8 text-primary-foreground" />
+                <div className="relative inline-block mb-6">
+                  <div className="w-20 h-20 rounded-2xl bg-primary flex items-center justify-center mx-auto shadow-lg">
+                    <item.icon className="w-10 h-10 text-primary-foreground" />
+                  </div>
+                  <span className="absolute -top-2 -right-2 w-8 h-8 rounded-full bg-card border border-border flex items-center justify-center text-xs font-medium shadow-sm">
+                    {item.step}
+                  </span>
                 </div>
-                <h3 className="text-xl font-semibold mb-2">{step.title}</h3>
-                <p className="text-muted-foreground">{step.description}</p>
+                <h3 className="font-serif text-xl font-medium mb-3">{item.title}</h3>
+                <p className="text-muted-foreground">{item.description}</p>
               </motion.div>
             ))}
           </div>
@@ -206,17 +238,22 @@ const Features = () => {
       </section>
 
       {/* CTA */}
-      <section className="py-24 px-4">
+      <section className="py-24 md:py-32 px-4">
         <div className="container mx-auto">
           <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            whileInView={{ opacity: 1, scale: 1 }}
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="glass rounded-3xl p-12 text-center max-w-3xl mx-auto"
+            transition={{ duration: 0.8 }}
+            className="bg-card rounded-3xl border border-border/50 shadow-elegant p-10 md:p-16 text-center max-w-3xl mx-auto"
           >
-            <Zap className="w-12 h-12 text-primary mx-auto mb-4" />
-            <h2 className="text-3xl font-bold mb-4">Ready to Get Started?</h2>
-            <p className="text-lg text-muted-foreground mb-8">
+            <div className="w-16 h-16 rounded-2xl bg-primary flex items-center justify-center mx-auto mb-8 shadow-lg">
+              <Zap className="w-8 h-8 text-primary-foreground" />
+            </div>
+            <h2 className="font-serif text-3xl md:text-4xl font-medium mb-6 tracking-tight">
+              Ready to Get Started?
+            </h2>
+            <p className="text-lg text-muted-foreground mb-10">
               Join thousands of learners already transforming their careers.
             </p>
             <Button variant="hero" size="xl" asChild>
