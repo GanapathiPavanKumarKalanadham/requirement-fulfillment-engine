@@ -54,6 +54,25 @@ const plans = [
   },
 ];
 
+const faqs = [
+  {
+    q: "Can I switch plans anytime?",
+    a: "Yes! You can upgrade or downgrade your plan at any time. Changes take effect immediately.",
+  },
+  {
+    q: "What are AI credits?",
+    a: "AI credits are used for generating roadmaps, analyzing documents, and powering the AI chat assistant.",
+  },
+  {
+    q: "Is there a money-back guarantee?",
+    a: "Yes, we offer a 14-day money-back guarantee on all paid plans. No questions asked.",
+  },
+  {
+    q: "Do I need a credit card to start?",
+    a: "No! The free plan doesn't require a credit card. You can upgrade whenever you're ready.",
+  },
+];
+
 const Pricing = () => {
   return (
     <div className="min-h-screen bg-background">
@@ -61,24 +80,25 @@ const Pricing = () => {
 
       {/* Hero Section */}
       <section className="relative pt-32 pb-20 px-4">
-        <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-accent/20 rounded-full blur-[128px] animate-pulse-glow" />
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute top-1/4 right-1/4 w-[500px] h-[500px] bg-lavender/5 rounded-full blur-[120px]" />
+          <div className="absolute inset-0 bg-grid-subtle bg-[size:60px_60px] opacity-40" />
         </div>
 
         <div className="container mx-auto relative z-10 text-center">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
+            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
           >
-            <Badge variant="glow" className="mb-4">
-              <Sparkles className="w-3 h-3 mr-1" />
+            <Badge variant="subtle" className="mb-6">
+              <Sparkles className="w-3.5 h-3.5 mr-1.5 text-lavender" />
               Simple Pricing
             </Badge>
-            <h1 className="text-4xl md:text-6xl font-bold mb-6">
-              Choose Your <span className="text-gradient">Plan</span>
+            <h1 className="font-serif text-4xl md:text-6xl lg:text-7xl font-medium mb-6 tracking-tight">
+              Choose Your <span className="text-gradient-warm">Plan</span>
             </h1>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+            <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">
               Start free and upgrade when you're ready. No hidden fees.
             </p>
           </motion.div>
@@ -88,43 +108,48 @@ const Pricing = () => {
       {/* Pricing Cards */}
       <section className="py-16 px-4">
         <div className="container mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 max-w-5xl mx-auto">
             {plans.map((plan, index) => (
               <motion.div
                 key={plan.name}
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 24 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.1 }}
+                transition={{ delay: index * 0.1, duration: 0.6 }}
               >
-                <Card 
-                  variant={plan.popular ? "glow" : "glass"} 
-                  className={`h-full relative ${plan.popular ? 'border-primary' : ''}`}
+                <Card
+                  variant={plan.popular ? "elevated" : "default"}
+                  className={`h-full relative ${plan.popular ? "border-primary/30 shadow-xl" : ""}`}
                 >
                   {plan.popular && (
                     <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-                      <Badge variant="glow">Most Popular</Badge>
+                      <Badge variant="default">Most Popular</Badge>
                     </div>
                   )}
-                  <CardHeader className="text-center pt-8">
+                  <CardHeader className="text-center pt-8 pb-4">
                     <CardTitle className="text-2xl">{plan.name}</CardTitle>
-                    <CardDescription>{plan.description}</CardDescription>
-                    <div className="pt-4">
-                      <span className="text-4xl font-bold">{plan.price}</span>
-                      {plan.period && <span className="text-muted-foreground">{plan.period}</span>}
+                    <CardDescription className="text-base">{plan.description}</CardDescription>
+                    <div className="pt-6">
+                      <span className="font-serif text-5xl font-medium">{plan.price}</span>
+                      {plan.period && (
+                        <span className="text-muted-foreground text-lg">{plan.period}</span>
+                      )}
                     </div>
                   </CardHeader>
-                  <CardContent className="space-y-4">
-                    <ul className="space-y-3">
+                  <CardContent className="space-y-6 pb-8">
+                    <ul className="space-y-4">
                       {plan.features.map((feature) => (
-                        <li key={feature} className="flex items-center gap-2">
-                          <Check className="w-5 h-5 text-success flex-shrink-0" />
+                        <li key={feature} className="flex items-center gap-3">
+                          <div className="w-5 h-5 rounded-full bg-success/10 flex items-center justify-center flex-shrink-0">
+                            <Check className="w-3 h-3 text-success" />
+                          </div>
                           <span className="text-sm">{feature}</span>
                         </li>
                       ))}
                     </ul>
-                    <Button 
-                      variant={plan.popular ? "hero" : "outline"} 
+                    <Button
+                      variant={plan.popular ? "hero" : "outline"}
                       className="w-full"
+                      size="lg"
                       asChild
                     >
                       <Link to="/auth">{plan.cta}</Link>
@@ -138,46 +163,33 @@ const Pricing = () => {
       </section>
 
       {/* FAQ Section */}
-      <section className="py-24 px-4 border-t border-border/50">
+      <section className="py-24 md:py-32 px-4 bg-muted/30">
         <div className="container mx-auto max-w-3xl">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
             className="text-center mb-12"
           >
-            <h2 className="text-3xl font-bold mb-4">Frequently Asked Questions</h2>
+            <h2 className="font-serif text-3xl md:text-4xl font-medium mb-4">
+              Frequently Asked Questions
+            </h2>
           </motion.div>
 
-          <div className="space-y-6">
-            {[
-              {
-                q: "Can I switch plans anytime?",
-                a: "Yes! You can upgrade or downgrade your plan at any time. Changes take effect immediately.",
-              },
-              {
-                q: "What are AI credits?",
-                a: "AI credits are used for generating roadmaps, analyzing documents, and powering the AI chat assistant.",
-              },
-              {
-                q: "Is there a money-back guarantee?",
-                a: "Yes, we offer a 14-day money-back guarantee on all paid plans. No questions asked.",
-              },
-              {
-                q: "Do I need a credit card to start?",
-                a: "No! The free plan doesn't require a credit card. You can upgrade whenever you're ready.",
-              },
-            ].map((faq, index) => (
+          <div className="space-y-4">
+            {faqs.map((faq, index) => (
               <motion.div
                 key={faq.q}
-                initial={{ opacity: 0, y: 10 }}
+                initial={{ opacity: 0, y: 16 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.05 }}
+                transition={{ delay: index * 0.05, duration: 0.5 }}
                 viewport={{ once: true }}
-                className="glass rounded-xl p-6"
               >
-                <h3 className="font-semibold mb-2">{faq.q}</h3>
-                <p className="text-muted-foreground">{faq.a}</p>
+                <Card variant="default" className="p-6">
+                  <h3 className="font-medium mb-2">{faq.q}</h3>
+                  <p className="text-muted-foreground text-sm leading-relaxed">{faq.a}</p>
+                </Card>
               </motion.div>
             ))}
           </div>
@@ -188,12 +200,17 @@ const Pricing = () => {
       <section className="py-24 px-4">
         <div className="container mx-auto text-center">
           <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            whileInView={{ opacity: 1, scale: 1 }}
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
           >
-            <Zap className="w-12 h-12 text-primary mx-auto mb-4" />
-            <h2 className="text-3xl font-bold mb-4">Ready to accelerate your career?</h2>
+            <div className="w-16 h-16 rounded-2xl bg-primary flex items-center justify-center mx-auto mb-8 shadow-lg">
+              <Zap className="w-8 h-8 text-primary-foreground" />
+            </div>
+            <h2 className="font-serif text-3xl md:text-4xl font-medium mb-6">
+              Ready to accelerate your career?
+            </h2>
             <Button variant="hero" size="xl" asChild>
               <Link to="/auth">
                 Get Started Free
